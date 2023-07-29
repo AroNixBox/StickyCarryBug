@@ -17,5 +17,6 @@ public class Counter : MonoBehaviour
     private void FixedUpdate()
     {
         playerScore = indicatorScript.pickedUpObjects;
+        Debug.Log(playerScore);
     }
 }
