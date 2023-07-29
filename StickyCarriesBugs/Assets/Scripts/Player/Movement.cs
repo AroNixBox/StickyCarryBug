@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     private bool isJumping = false;
     private bool isPicking = false;
     private bool isFalling = false;
+    private bool canPlayRunSound = true;
     private Rigidbody2D rb;
     private int pickedUpObjects = 0;
     
@@ -61,6 +62,27 @@ public class Movement : MonoBehaviour
                 transform.localScale = new Vector3(1, 1, 1);
             }
 
+            if (moveX < 0 || moveX > 0)
+            {
+                if (!isJumping)
+                {
+                    if (canPlayRunSound)
+                    {
+                        playerWalk.Play();
+                    } 
+                    canPlayRunSound = false;
+                }
+                else
+                {
+                    playerWalk.Stop();
+                    canPlayRunSound = true;
+                }
+            }
+            else
+            {
+                playerWalk.Stop();
+                canPlayRunSound = true;
+            }
             
         }
         
