@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -14,6 +13,13 @@ public class Movement : MonoBehaviour
     private bool isFalling = false;
     private Rigidbody2D rb;
     private int pickedUpObjects = 0;
+    
+    //AudioSources
+    [SerializeField] private AudioSource playerJump;
+    [SerializeField] private AudioSource playerImpact;
+    [SerializeField] private AudioSource playerPickup;
+    [SerializeField] private AudioSource playerWalk;
+    
     
     //Object to pickup
     private GameObject currentPickableObject = null;
@@ -33,7 +39,7 @@ public class Movement : MonoBehaviour
             
             if (Input.GetButtonDown("Jump") && !isJumping)
             {
-                
+                playerJump.Play();
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
                 isJumping = true;
             }
@@ -54,7 +60,10 @@ public class Movement : MonoBehaviour
                 //Is Walking right
                 transform.localScale = new Vector3(1, 1, 1);
             }
+
+            
         }
+        
         if (rb.velocity.y < -fallThreshold)
         {
             //paste falling anim
@@ -92,10 +101,12 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+            playerImpact.Play();
         }
     }
     IEnumerator PickUpObject(GameObject obj)
     {
+        playerPickup.Play();
         isPicking = true;
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(3f);
