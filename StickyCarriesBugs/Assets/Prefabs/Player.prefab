@@ -225,3 +225,4 @@ MonoBehaviour:
   jumpForce: 5
   fallMultiplier: 3.6
   fallThreshold: 0.1
+  jumpForceDecreasePerObject: 0.1

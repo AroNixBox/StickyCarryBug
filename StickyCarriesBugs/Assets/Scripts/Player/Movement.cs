@@ -8,11 +8,12 @@ public class Movement : MonoBehaviour
     public float jumpForce = 5.0f;
     public float fallMultiplier = 2.5f;
     public float fallThreshold = 1.5f;
+    public float jumpForceDecreasePerObject = 0.1f;
     private bool isJumping = false;
     private bool isPicking = false;
     private bool isFalling = false;
     private Rigidbody2D rb;
-
+    private int pickedUpObjects = 0;
     
     //Object to pickup
     private GameObject currentPickableObject = null;
@@ -29,18 +30,19 @@ public class Movement : MonoBehaviour
         if (!isPicking)
         {
             rb.velocity = new Vector2(moveX * speed, rb.velocity.y);
-        
+            
             if (Input.GetButtonDown("Jump") && !isJumping)
             {
-                //Player is Jumping
+                
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
                 isJumping = true;
             }
-        
+
             if (Input.GetKeyDown(KeyCode.E) && currentPickableObject != null)
             {
                 StartCoroutine(PickUpObject(currentPickableObject));
             } 
+            
                     
             if (moveX < 0)
             {
@@ -73,7 +75,6 @@ public class Movement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Pickable"))
         {
-            Debug.Log(collision.gameObject);
             currentPickableObject = collision.gameObject;
         }
     }
@@ -93,15 +94,15 @@ public class Movement : MonoBehaviour
             isJumping = false;
         }
     }
-
     IEnumerator PickUpObject(GameObject obj)
     {
-        Debug.Log(currentPickableObject);
         isPicking = true;
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(3f);
         //Add to list of picked up Objects here.
-        Destroy(obj); // Objekt "aufheben" (zerstören)
+        pickedUpObjects += 1;
+        jumpForce -= jumpForceDecreasePerObject;
+        obj.SetActive(false);
         isPicking = false;
     }
 }
