@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Pickable
+  - Dead
   layers:
   - Default
   - TransparentFX
