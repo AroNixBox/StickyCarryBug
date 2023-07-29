@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     private bool isFalling = false;
     private bool canPlayRunSound = true;
     private Rigidbody2D rb;
-    private int pickedUpObjects = 0;
+    public int pickedUpObjects = 0;
 
     [SerializeField] private TextMeshProUGUI indicator;
 
