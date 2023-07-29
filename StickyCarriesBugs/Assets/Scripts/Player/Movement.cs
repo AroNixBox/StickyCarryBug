@@ -14,6 +14,8 @@ public class Movement : MonoBehaviour
     private bool canPlayRunSound = true;
     private Rigidbody2D rb;
     private int pickedUpObjects = 0;
+
+    [SerializeField] private Animator anim;
     
     //AudioSources
     [SerializeField] private AudioSource playerJump;
@@ -40,6 +42,7 @@ public class Movement : MonoBehaviour
             
             if (Input.GetButtonDown("Jump") && !isJumping)
             {
+                anim.SetTrigger("isJumping");
                 playerJump.Play();
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
                 isJumping = true;
@@ -53,7 +56,6 @@ public class Movement : MonoBehaviour
                     
             if (moveX < 0)
             {
-                //Is Walking left
                 transform.localScale = new Vector3(-1, 1, 1);
             }
             else if (moveX > 0)
@@ -68,6 +70,7 @@ public class Movement : MonoBehaviour
                 {
                     if (canPlayRunSound)
                     {
+                        anim.SetBool("isWalking", true);
                         playerWalk.Play();
                     } 
                     canPlayRunSound = false;
@@ -80,6 +83,7 @@ public class Movement : MonoBehaviour
             }
             else
             {
+                anim.SetBool("isWalking", false);
                 playerWalk.Stop();
                 canPlayRunSound = true;
             }
@@ -129,9 +133,10 @@ public class Movement : MonoBehaviour
     IEnumerator PickUpObject(GameObject obj)
     {
         playerPickup.Play();
+        anim.SetTrigger("isPickingUp");
         isPicking = true;
         rb.velocity = Vector2.zero;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         //Add to list of picked up Objects here.
         pickedUpObjects += 1;
         jumpForce -= jumpForceDecreasePerObject;
