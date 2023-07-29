@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -12,8 +11,16 @@ public class Movement : MonoBehaviour
     private bool isJumping = false;
     private bool isPicking = false;
     private bool isFalling = false;
+    private bool canPlayRunSound = true;
     private Rigidbody2D rb;
     private int pickedUpObjects = 0;
+    
+    //AudioSources
+    [SerializeField] private AudioSource playerJump;
+    [SerializeField] private AudioSource playerImpact;
+    [SerializeField] private AudioSource playerPickup;
+    [SerializeField] private AudioSource playerWalk;
+    
     
     //Object to pickup
     private GameObject currentPickableObject = null;
@@ -33,7 +40,7 @@ public class Movement : MonoBehaviour
             
             if (Input.GetButtonDown("Jump") && !isJumping)
             {
-                
+                playerJump.Play();
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
                 isJumping = true;
             }
@@ -54,7 +61,31 @@ public class Movement : MonoBehaviour
                 //Is Walking right
                 transform.localScale = new Vector3(1, 1, 1);
             }
+
+            if (moveX < 0 || moveX > 0)
+            {
+                if (!isJumping)
+                {
+                    if (canPlayRunSound)
+                    {
+                        playerWalk.Play();
+                    } 
+                    canPlayRunSound = false;
+                }
+                else
+                {
+                    playerWalk.Stop();
+                    canPlayRunSound = true;
+                }
+            }
+            else
+            {
+                playerWalk.Stop();
+                canPlayRunSound = true;
+            }
+            
         }
+        
         if (rb.velocity.y < -fallThreshold)
         {
             //paste falling anim
@@ -92,10 +123,12 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+            playerImpact.Play();
         }
     }
     IEnumerator PickUpObject(GameObject obj)
     {
+        playerPickup.Play();
         isPicking = true;
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(3f);
