@@ -221,8 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba49e139a4dbba141836e30684101b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 5
-  fallMultiplier: 3.6
+  speed: 8
+  jumpForce: 10
+  fallMultiplier: 2
   fallThreshold: 0.1
   jumpForceDecreasePerObject: 0.1
