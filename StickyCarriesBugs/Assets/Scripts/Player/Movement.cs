@@ -46,6 +46,7 @@ public class Movement : MonoBehaviour
                 playerJump.Play();
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
                 isJumping = true;
+                anim.SetBool("isGrounded", false);
             }
 
             if (Input.GetKeyDown(KeyCode.E) && currentPickableObject != null)
@@ -127,6 +128,7 @@ public class Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+            anim.SetBool("isGrounded", true);
             playerImpact.Play();
         }
     }
