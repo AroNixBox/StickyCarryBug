@@ -16,6 +16,7 @@ public class Movement : MonoBehaviour
     private Rigidbody2D rb;
     public int pickedUpObjects = 0;
 
+    [SerializeField] private GameObject DropObject;
     [SerializeField] private TextMeshProUGUI indicator;
 
     [SerializeField] private Animator anim;
@@ -57,6 +58,10 @@ public class Movement : MonoBehaviour
                 StartCoroutine(PickUpObject(currentPickableObject));
             } 
             
+            if(Input.GetKeyDown(KeyCode.Q) && pickedUpObjects > 0)
+            {
+                pickedUpObjects--;
+            }
                     
             if (moveX < 0)
             {

@@ -23263,7 +23263,7 @@ PrefabInstance:
       objectReference: {fileID: 499434346}
     - target: {fileID: 8027187999822859890, guid: b66177ff9d328cd4fa95fe2b6e0cae43, type: 3}
       propertyPath: jumpForceDecreasePerObject
-      value: 0.5
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 8027187999822859895, guid: b66177ff9d328cd4fa95fe2b6e0cae43, type: 3}
       propertyPath: m_RootOrder
