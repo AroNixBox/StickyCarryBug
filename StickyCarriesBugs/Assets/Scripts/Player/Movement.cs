@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class Movement : MonoBehaviour
 {
@@ -13,7 +14,9 @@ public class Movement : MonoBehaviour
     private bool isFalling = false;
     private bool canPlayRunSound = true;
     private Rigidbody2D rb;
-    private int pickedUpObjects = 0;
+    public int pickedUpObjects = 0;
+
+    [SerializeField] private TextMeshProUGUI indicator;
 
     [SerializeField] private Animator anim;
     
@@ -106,6 +109,8 @@ public class Movement : MonoBehaviour
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
+
+        indicator.text = "Extra Weight: " + pickedUpObjects.ToString() + "kg";
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
